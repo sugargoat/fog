@@ -87,6 +87,9 @@ pub enum McError {
 
     /// Bip39: {0}
     Bip39(Bip39Error),
+
+    /// Downcast from Anyhow Error failed: {0}
+    DowncastAnyFailed(anyhow::Error)
 }
 
 impl From<FromUtf8Error> for McError {
@@ -209,16 +212,14 @@ impl From<jni::errors::Error> for McError {
     }
 }
 
-// impl From<anyhow::Error> for McError {
-//     fn from(src: anyhow::Error) -> Self {
-//         for cause in src.chain() {
-//             if let Some(inner_err) = cause.downcast::<Bip39Error>() {
-//                 return (*inner_err).into();
-//             }
-//         }
-//         panic!("Unknown anyhow error");
-//     }
-// }
+impl From<anyhow::Error> for McError {
+    fn from(src: anyhow::Error) -> Self {
+        match src.downcast::<Bip39Error>() {
+            Ok(error_kind) => error_kind.into(),
+            Err(e) => Self::DowncastAnyFailed(e),
+        }
+    }
+}
 
 impl From<Bip39Error> for McError {
     fn from(src: Bip39Error) -> Self {

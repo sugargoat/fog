@@ -2562,6 +2562,7 @@ name = "mc-android-bindings"
 version = "0.13.0"
 dependencies = [
  "aes-gcm 0.6.0 (git+https://github.com/mobilecoinofficial/AEADs?rev=d1a8517d3dd867ed9c5794002add67992a42f6aa)",
+ "anyhow 1.0.40 (registry+https://github.com/rust-lang/crates.io-index)",
  "displaydoc 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "fog-kex-rng 0.13.0",
  "jni 0.16.0 (registry+https://github.com/rust-lang/crates.io-index)",
