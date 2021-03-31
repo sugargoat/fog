@@ -1,6 +1,6 @@
 // Copyright (c) 2018-2021 The MobileCoin Foundation
 
-use bip39::Error as Bip39Error;
+use bip39::ErrorKind as Bip39Error;
 use displaydoc::Display;
 use fog_kex_rng::Error as KexRngError;
 use mc_attest_ake::Error as AkeError;
@@ -208,6 +208,17 @@ impl From<jni::errors::Error> for McError {
         Self::JNI(src.to_string())
     }
 }
+
+// impl From<anyhow::Error> for McError {
+//     fn from(src: anyhow::Error) -> Self {
+//         for cause in src.chain() {
+//             if let Some(inner_err) = cause.downcast::<Bip39Error>() {
+//                 return (*inner_err).into();
+//             }
+//         }
+//         panic!("Unknown anyhow error");
+//     }
+// }
 
 impl From<Bip39Error> for McError {
     fn from(src: Bip39Error) -> Self {
